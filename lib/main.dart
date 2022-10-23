@@ -1,3 +1,5 @@
+import 'package:congressional_app_challenge_mobile/LoginPage.dart';
+import 'package:congressional_app_challenge_mobile/SignUpPage.dart';
 import 'package:congressional_app_challenge_mobile/dashboard.dart';
 import 'package:congressional_app_challenge_mobile/journal.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -25,11 +28,14 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const Index(),
       routes: {
         "/journal": (context) => const journal(),
         "/dashboard": (context) => const dashboard(),
+        "/login": (context) => LoginPage(),
+        "/signup": (context) => SignUpPage(),
       },
     );
   }
@@ -58,6 +64,22 @@ class Index extends StatelessWidget {
               leading: const Icon(Icons.access_alarm),
               onTap: () {
                 Navigator.pushNamed(context, "/dashboard");
+              }),
+        ),
+        Card(
+          child: ListTile(
+              title: const Text("Login"),
+              leading: const Icon(Icons.access_alarm),
+              onTap: () {
+                Navigator.pushNamed(context, "/login");
+              }),
+        ),
+        Card(
+          child: ListTile(
+              title: const Text("Signup"),
+              leading: const Icon(Icons.access_alarm),
+              onTap: () {
+                Navigator.pushNamed(context, "/signup");
               }),
         ),
       ],
