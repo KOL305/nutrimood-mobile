@@ -11,6 +11,7 @@ class dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<dashboard> {
+  int currentIndex = 0;
   var entries;
   var average;
   var caloriesStat;
@@ -24,23 +25,21 @@ class _dashboardState extends State<dashboard> {
   var color4;
   var color5;
   var emoji;
+  var dayInInt;
+  var day;
 
   @override
   void initState() {
     super.initState();
-    entries = {'Calories':(10000/1000),'Proteins':(10000/200),'Carbs':(50/50),'Fat':(20/120),'Water':(10/1000)};
+    entries = {'Day':5/1,'Calories':(10000/1000),'Proteins':(10000/200),'Carbs':(50/50),'Fat':(20/120),'Water':(10/1000)};
     average = (entries['Calories']!+ entries['Proteins']!+entries['Carbs']!+entries['Fat']!+entries['Water']!)/5;
     caloriesStat = entries['Calories'];
     proteinStat = entries['Proteins'];
     carbsStat = entries['Carbs'];
     fatStat = entries['Fat'];
     waterStat = entries['Water'];
-    color1;
-    color2;
-    color3;
-    color4;
-    color5;
-    emoji;
+    dayInInt = entries['Day']?.round();
+    day = dayInInt.toString();
   }
 
 
@@ -86,7 +85,7 @@ class _dashboardState extends State<dashboard> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Day", textAlign: TextAlign.left,),
+          title: Text("Day " + day, textAlign: TextAlign.left,),
           backgroundColor: Colors.pink[100],
           centerTitle: false,
           elevation: 0.0,  
@@ -98,8 +97,16 @@ class _dashboardState extends State<dashboard> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Image(
-              image: NetworkImage('https://i.gifer.com/57EY.gif'),
+            Container(
+              height: 287.4,
+              width: 415,
+              child:FittedBox(
+
+              fit: BoxFit.fill,
+              child: Image(
+                image: NetworkImage('https://media.tenor.com/6Lw1YBeMrCMAAAAM/hanoopy-happy.gif'),
+              ),
+              ),
             ),
             Row(
               children: [
@@ -206,6 +213,35 @@ class _dashboardState extends State<dashboard> {
                   ),
               ],
             ),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.indigo[400],
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white70,
+          iconSize: 36,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentIndex,
+          onTap: (index)=> setState(() => currentIndex = index),
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Dash Board',
+              //backgroundColor: Colors.blue,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.receipt),
+              label: 'Journal',
+              //backgroundColor: Colors.blue,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Calorie Search',
+              //backgroundColor: Colors.blue,
+            ),
+
           ],
         ),
       ),

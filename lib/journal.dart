@@ -15,11 +15,11 @@ class journal extends StatefulWidget {
 
 class _journalState extends State<journal> {
   final List entries = [{'name':'water', 'calories':'0','meal':'water','servings': '10'},{'name':'chocolate', 'calories':'100','meal':'snack','servings': '2'},{'name':'cookie', 'calories':'300','meal':'snack','servings': '2'},{'name':'apple', 'calories':'50','meal':'breakfast','servings': '1'}, {'name':'rice', 'calories':'500','meal':'dinner','servings': '1'},{'name':'sandwich', 'calories':'1000','meal':'lunch','servings': '2'}];
-  //final List entries = [{'name':'water', 'calories':'0','meal':'water','servings': '10'},{'name':'chocolate', 'calories':'100','meal':'snack','servings': '2'},{'name':'cookie', 'calories':'300','meal':'snack','servings': '2'},{'name':'apple', 'calories':'50','meal':'breakfast','servings': '1'}, {'name':'rice', 'calories':'500','meal':'dinner','servings': '1'},{'name':'sandwich', 'calories':'1000','meal':'lunch','servings': '2'}];
-  //var date = DateFormat('MM-dd-yyyy').format(DateTime.now());
   var today = DateTime.now();
 
   var color = {'breakfast':Colors.yellowAccent,'water':Colors.lightBlue, 'dinner':Colors.pink[100], 'snack':Colors.green,'lunch': Colors.orangeAccent};
+
+  int currentIndex =0;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class _journalState extends State<journal> {
             DateFormat('MM-dd-yyyy').format(today),
             //date,
           ),
-          backgroundColor: Colors.lightBlue,
+          backgroundColor: Colors.indigo[400],
           centerTitle: true,
           elevation: 0.0,
           leading: //Icon(App.navigate_before),
@@ -78,6 +78,35 @@ class _journalState extends State<journal> {
           )
        : Center(child: Text('Go eat something!!!'),
         ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.indigo[400],
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white70,
+          iconSize: 36,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentIndex,
+          onTap: (index)=> setState(() => currentIndex = index),
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Dash Board',
+              //backgroundColor: Colors.blue,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.receipt),
+              label: 'Journal',
+              //backgroundColor: Colors.blue,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Calorie Search',
+              //backgroundColor: Colors.blue,
+            ),
+
+        ],
+      ),
       ),
     );
   }
