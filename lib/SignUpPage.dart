@@ -394,7 +394,6 @@ class _SignUpPageState extends State<SignUpPage> {
       print("This is the token");
       print(await storage.read(key: "token"));
       Timer(const Duration(milliseconds: 1000), (){Navigator.pushReplacementNamed(context, '/dashboard');});
-      
     }
 
 

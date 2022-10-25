@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:collection';
@@ -14,12 +17,56 @@ class journal extends StatefulWidget {
 }
 
 class _journalState extends State<journal> {
-  final List entries = [{'name':'water', 'calories':'0','meal':'water','servings': '10'},{'name':'chocolate', 'calories':'100','meal':'snack','servings': '2'},{'name':'cookie', 'calories':'300','meal':'snack','servings': '2'},{'name':'apple', 'calories':'50','meal':'breakfast','servings': '1'}, {'name':'rice', 'calories':'500','meal':'dinner','servings': '1'},{'name':'sandwich', 'calories':'1000','meal':'lunch','servings': '2'}];
-  var today = DateTime.now();
+  List entries = [];
+  var today;
 
-  var color = {'breakfast':Colors.yellowAccent,'water':Colors.lightBlue, 'dinner':Colors.pink[100], 'snack':Colors.green,'lunch': Colors.orangeAccent};
+  var color = {'Breakfast':Colors.yellowAccent,'Water':Colors.lightBlue, 'Dinner':Colors.pink[100], 'Snack':Colors.green,'Lunch': Colors.orangeAccent};
 
   int currentIndex =0;
+
+  getJournal (date) async{
+    final storage = new FlutterSecureStorage();
+    String? value = await storage.read(key: "token");
+    print("I love tokens");
+    print(value);
+    print(date);
+    var journalDate = (date).toString().split(" ")[0];
+    print(journalDate);
+    var splitDate = journalDate.split("-");
+    journalDate = "${splitDate[1]}-${splitDate[2]}-${splitDate[0]}";
+    print(journalDate);
+
+    final response = await http.get(Uri.parse('http://10.0.2.2:8000/api/getjournal?value=$value&date=$journalDate'));
+    var data = jsonDecode(response.body);
+    print(data);
+    if (data["error"] == "0"){
+        entries = data["journal"];
+    }
+    else{
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('An Error Has Occurred'),
+          content: Text(data["message"]),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    today = DateTime.now();
+    print("AAAAAAAA");
+    getJournal(today);
+    Timer(const Duration(milliseconds: 1000), (){setState(() {});});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +138,7 @@ class _journalState extends State<journal> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: 'Dash Board',
+              label: 'Dashboard',
               //backgroundColor: Colors.blue,
             ),
             BottomNavigationBarItem(

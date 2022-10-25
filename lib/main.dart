@@ -2,6 +2,7 @@ import 'package:congressional_app_challenge_mobile/LoginPage.dart';
 import 'package:congressional_app_challenge_mobile/SignUpPage.dart';
 import 'package:congressional_app_challenge_mobile/dashboard.dart';
 import 'package:congressional_app_challenge_mobile/journal.dart';
+import 'package:congressional_app_challenge_mobile/search.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/journal": (context) => const journal(),
         "/dashboard": (context) => const dashboard(),
+        "/search": (context) => const Search(),
         "/login": (context) => LoginPage(),
         "/signup": (context) => SignUpPage(),
       },
@@ -64,6 +66,14 @@ class Index extends StatelessWidget {
               leading: const Icon(Icons.access_alarm),
               onTap: () {
                 Navigator.pushNamed(context, "/dashboard");
+              }),
+        ),
+        Card(
+          child: ListTile(
+              title: const Text("Search"),
+              leading: const Icon(Icons.access_alarm),
+              onTap: () {
+                Navigator.pushNamed(context, "/search");
               }),
         ),
         Card(

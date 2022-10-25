@@ -1,7 +1,12 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:emojis/emojis.dart';
 import 'package:emojis/emojis.dart'; // to use Emoji collection
 import 'package:emojis/emoji.dart'; // to use Emoji utilities
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 
 class dashboard extends StatefulWidget {
   const dashboard({super.key});
@@ -25,25 +30,55 @@ class _dashboardState extends State<dashboard> {
   var color4;
   var color5;
   var emoji;
-  var dayInInt;
   var day;
+
+  getDashboard () async{
+    final storage = new FlutterSecureStorage();
+    String? value = await storage.read(key: "token");
+    print("I love tokens");
+    print(value);
+    final response = await http.get(Uri.parse('http://10.0.2.2:8000/api/getdashboard?value=$value'));
+    var data = jsonDecode(response.body);
+    if (data["error"] == "0"){
+        entries = data["entries"];
+        day = data["day"];
+        print(entries);
+        print(day);
+    }
+    else{
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('An Error Has Occurred'),
+          content: Text(data["message"]),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    entries = {'Day':5/1,'Calories':(10000/1000),'Proteins':(10000/200),'Carbs':(50/50),'Fat':(20/120),'Water':(10/1000)};
+    entries = {'Calories':0.0,'Proteins':0.0,'Carbs':0.0,'Fat':0.0,'Water':0.0};
+    day = "1";
+    getDashboard();
+    print(entries);
+    print(day);
     average = (entries['Calories']!+ entries['Proteins']!+entries['Carbs']!+entries['Fat']!+entries['Water']!)/5;
     caloriesStat = entries['Calories'];
     proteinStat = entries['Proteins'];
     carbsStat = entries['Carbs'];
     fatStat = entries['Fat'];
     waterStat = entries['Water'];
-    dayInInt = entries['Day']?.round();
-    day = dayInInt.toString();
+    Timer(const Duration(milliseconds: 1000), (){setState(() {});});
+    
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
