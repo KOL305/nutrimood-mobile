@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
 
                         return;
                       }else{
-                        print("UnSuccessfull");
+                        print("Unsuccessful");
                       }
                     },
 
@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
       'name': _name.text,
       'password': _password.text,
     };
-    print("USER DATA: ${body}");
+
     final response = await http.post(Uri.parse('http://10.0.2.2:8000/api/login'), headers: header, body: jsonEncode(body));
 
     var data = jsonDecode(response.body);
@@ -176,10 +176,7 @@ class _LoginPageState extends State<LoginPage> {
     }
     else{
       final storage = new FlutterSecureStorage();
-      print(data["token"]);
       await storage.write(key: "token", value: data["token"]);
-      print("This is the token");
-      print(await storage.read(key: "token"));
       Timer(const Duration(milliseconds: 1000), (){Navigator.pushReplacementNamed(context, '/dashboard');});
     }
   }

@@ -35,15 +35,11 @@ class _dashboardState extends State<dashboard> {
   getDashboard () async{
     final storage = new FlutterSecureStorage();
     String? value = await storage.read(key: "token");
-    print("I love tokens");
-    print(value);
     final response = await http.get(Uri.parse('http://10.0.2.2:8000/api/getdashboard?value=$value'));
     var data = jsonDecode(response.body);
     if (data["error"] == "0"){
         entries = data["entries"];
         day = data["day"];
-        print(entries);
-        print(day);
     }
     else{
       showDialog<String>(
@@ -61,27 +57,15 @@ class _dashboardState extends State<dashboard> {
       );
     }
   }
-
-  @override
-  void initState() {
-    super.initState();
-    entries = {'Calories':0.0,'Proteins':0.0,'Carbs':0.0,'Fat':0.0,'Water':0.0};
-    day = "1";
-    getDashboard();
-    print(entries);
-    print(day);
-    average = (entries['Calories']!+ entries['Proteins']!+entries['Carbs']!+entries['Fat']!+entries['Water']!)/5;
+  
+  update_icons(){
+    average = (entries['Calories']!+ entries['Proteins']!+entries['Carbs']!+entries['Fat']!)/4;
     caloriesStat = entries['Calories'];
     proteinStat = entries['Proteins'];
     carbsStat = entries['Carbs'];
     fatStat = entries['Fat'];
     waterStat = entries['Water'];
-    Timer(const Duration(milliseconds: 1000), (){setState(() {});});
-    
-  }
 
-  @override
-  Widget build(BuildContext context) {
     if(average>.7 && average<=1){
       emoji = '${Emojis.smilingFace}';
     }else if(average>.5&&average<=.7){
@@ -111,11 +95,27 @@ class _dashboardState extends State<dashboard> {
     }else{
       color4 = Color(0xff00ff00);
     }
-    if(waterStat!>1){
+    if(waterStat!<0.5){
       color5 = Colors.black;
     }else{
       color5 = Color(0xff00ff00);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    entries = {'Calories':0.0,'Proteins':0.0,'Carbs':0.0,'Fat':0.0,'Water':0.0};
+    day = "";
+    getDashboard();
+    Timer(const Duration(milliseconds: 1000), (){update_icons();});
+    Timer(const Duration(milliseconds: 1100), (){setState(() {});});
+    
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    update_icons();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -291,202 +291,6 @@ class _dashboardState extends State<dashboard> {
     );
   }
 }
-
-// void main() => runApp(App());
-
-// var entries = {'Calories':(10000/1000),'Proteins':(10000/200),'Carbs':(50/50),'Fat':(20/120),'Water':(10/1000)};
-
-// var average = (entries['Calories']!+ entries['Proteins']!+entries['Carbs']!+entries['Fat']!+entries['Water']!)/5;
-// var caloriesStat = entries['Calories'];
-// var proteinStat = entries['Proteins'];
-// var carbsStat = entries['Carbs'];
-// var fatStat = entries['Fat'];
-// var waterStat = entries['Water'];
-// var color1;
-// var color2;
-// var color3;
-// var color4;
-// var color5;
-// var emoji;
-
-
-
-// class App extends StatefulWidget {
-//   @override
-//   State<App> createState() => _AppState();
-// }
-
-
-// class _AppState extends State<App> {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     if(average>.7 && average<=1){
-//       emoji = '${Emojis.smilingFace}';
-//     }else if(average>.5&&average<=.7){
-//       emoji = '${Emojis.neutralFace}';
-//     }else if(average<=.5&&average>.3){
-//       emoji = '${Emojis.worriedFace}';
-//     }else{
-//       emoji = '${Emojis.skull}';
-//     }
-//     if(caloriesStat!>1){
-//       color1 = Colors.black;
-//     }else{
-//       color1 = Color(0xff00ff00);
-//     }
-//     if(proteinStat!>1){
-//       color2 = Colors.black;
-//     }else{
-//     color2 = Color(0xff00ff00);
-//     }
-//     if(carbsStat!>1){
-//       color3 = Colors.black;
-//     }else{
-//       color3 = Color(0xff00ff00);
-//     }
-//     if(fatStat!>1){
-//       color4 = Colors.black;
-//     }else{
-//       color4 = Color(0xff00ff00);
-//     }
-//     if(waterStat!>1){
-//       color5 = Colors.black;
-//     }else{
-//       color5 = Color(0xff00ff00);
-//     }
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: Scaffold(
-//         appBar: AppBar(
-//           title: Text("Day", textAlign: TextAlign.left,),
-//           backgroundColor: Colors.pink[100],
-//           centerTitle: false,
-//           elevation: 0.0,  
-//           actions: [
-//             Text(emoji,style: TextStyle(fontSize: 50)),
-//           ],
-//         ),
-//         body: Column(
-//           mainAxisAlignment: MainAxisAlignment.end,
-//           crossAxisAlignment: CrossAxisAlignment.end,
-//           children: <Widget>[
-//             Image(
-//               image: NetworkImage('https://i.gifer.com/57EY.gif'),
-//             ),
-//             Row(
-//               children: [
-//                 Expanded(
-//                   child: Container(
-//                     padding: EdgeInsets.all(10.0),
-//                     height: 250.0,
-//                     color: Colors.pink[100],
-//                     child: Column(
-//                       children: [
-//                         Row(
-//                           children: [
-//                             Text('Calories   ', textAlign: TextAlign.start,),
-//                             Container(
-//                               margin: EdgeInsets.symmetric(vertical: 11),
-//                                 width: 300,
-//                                 height: 20,
-//                                 child: ClipRRect(
-//                                   borderRadius: BorderRadius.all(Radius.circular(10)),
-//                                   child: LinearProgressIndicator(
-//                                     value: entries['Calories'],
-//                                     valueColor: AlwaysStoppedAnimation<Color>(color1),
-//                                     backgroundColor: Color(0xffD6D6D6),
-//                                   ),
-//                                 ),
-//                               ),
-//                           ],
-//                         ),
-//                         Row(
-//                           children: [
-//                             Text('Proteins   ', textAlign: TextAlign.start,),
-//                             Container(
-//                               margin: EdgeInsets.symmetric(vertical:11),
-//                               width: 300,
-//                               height:20,
-//                               child: ClipRRect(
-//                                 borderRadius: BorderRadius.all(Radius.circular(10)),
-//                                 child: LinearProgressIndicator(
-//                                   value: entries['Proteins'],
-//                                   valueColor: AlwaysStoppedAnimation<Color>(color2),
-//                                   backgroundColor: Color(0xffD6D6D6),
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                         Row(
-//                           children: [
-//                             Text('Carbs      ', textAlign: TextAlign.start,),
-//                             Container(
-//                               margin: EdgeInsets.symmetric(vertical:11),
-//                               width: 300,
-//                               height:20,
-//                               child: ClipRRect(
-//                                 borderRadius: BorderRadius.all(Radius.circular(10)),
-//                                 child: LinearProgressIndicator(
-//                                   value: entries['Carbs'],
-//                                   valueColor: AlwaysStoppedAnimation<Color>(color3),
-//                                   backgroundColor: Color(0xffD6D6D6),
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                         Row(
-//                           children: [
-//                             Text('Fat          ', textAlign: TextAlign.start,),
-//                             Container(
-//                               margin: EdgeInsets.symmetric(vertical: 11),
-//                               width: 300,
-//                               height: 20,
-//                               child: ClipRRect(
-//                                 borderRadius: BorderRadius.all(Radius.circular(10)),
-//                                 child: LinearProgressIndicator(
-//                                   value: entries['Fat'],
-//                                   valueColor: AlwaysStoppedAnimation<Color>(color4),
-//                                   backgroundColor: Color(0xffD6D6D6),
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                         Row(
-//                           children: [
-//                             Text('Water      ', textAlign: TextAlign.start,),
-//                             Container(
-//                               margin: EdgeInsets.symmetric(vertical: 11),
-//                               width: 300,
-//                               height: 20,
-//                               child: ClipRRect(
-//                                 borderRadius: BorderRadius.all(Radius.circular(10)),
-//                                 child: LinearProgressIndicator(
-//                                   value: entries['Water'],
-//                                   valueColor: AlwaysStoppedAnimation<Color>(color5),
-//                                   backgroundColor: Color(0xffD6D6D6),
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       ],
-//                     ),
-//                     ),
-//                   ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
 
 
 

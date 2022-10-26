@@ -133,9 +133,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       {
                         return 'Please re-enter password';
                       }
-                      print(_password.text);
-
-                      print(_confirmpassword.text);
 
                       if(_password.text!=_confirmpassword.text){
                         return "Password does not match";
@@ -219,7 +216,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       }
                       if((value.toLowerCase()!='male')&&(value.toLowerCase()!='female'))
                       {
-                        print(value.toLowerCase());
                         return 'Please enter your gender(male/female)';
                       }
                       return null;
@@ -313,7 +309,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                         return;
                       }else{
-                        print("UnSuccessfull");
+                        print("unsuccessful");
                       }
                     },
 
@@ -365,12 +361,9 @@ class _SignUpPageState extends State<SignUpPage> {
       'day': _birthdate.text,
       'year': _birthyear.text,
     };
-    print("USER DATA: ${body}");
     var response = await http.post(Uri.parse('http://10.0.2.2:8000/api/signup'), headers: header, body: jsonEncode(body));
 
     var data = jsonDecode(response.body);
-
-    print(data);
 
     if (data["error"] != "0"){
       showDialog<String>(
@@ -389,10 +382,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
     else{
       final storage = new FlutterSecureStorage();
-      print(data["token"]);
       await storage.write(key: "token", value: data["token"]);
-      print("This is the token");
-      print(await storage.read(key: "token"));
       Timer(const Duration(milliseconds: 1000), (){Navigator.pushReplacementNamed(context, '/dashboard');});
     }
 

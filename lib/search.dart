@@ -82,19 +82,12 @@ class CustomSearchDelegate extends SearchDelegate {
   List<Food> suggestions = [];
   var body = {};
   getFood(searchedFood) async {
-    print(searchedFood);
     suggestions = [];
     var url1 = Uri.parse(
         'https://api.nal.usda.gov/fdc/v1/foods/search?query=apple&api_key=4xuCPTczsw6SIyIYMbnwiXp5VLhOv3iYHqPt0Frv&query=$searchedFood&pageSize=100&dataType=Branded');
-    print("hello");
     var response = await http.get(url1);
-    print("goodbye");
-    print(response);
-    print("body");
 
     body = jsonDecode(response.body);
-    print(body.length);
-    print(body);
   }
 
   @override
@@ -129,10 +122,7 @@ class CustomSearchDelegate extends SearchDelegate {
     return ListView.builder(
       itemCount: body["foods"].length,
       itemBuilder: (context, index) {
-        print(index);
-        print(body);
         var result = body["foods"][index];
-        print(body["foods"].length);
         num = index;
         return Card(
           child: ListTile(
@@ -156,7 +146,6 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     var length = 0;
     getFood(query);
-    print(body["foods"]);
     if (!query.isEmpty && body["foods"] != null) {
       length = body["foods"].length;
     } else {
@@ -165,8 +154,6 @@ class CustomSearchDelegate extends SearchDelegate {
     return ListView.builder(
       itemCount: length,
       itemBuilder: (context, index) {
-        print(index);
-        print(body);
         var result = body["foods"][index];
         return Card(
           child: ListTile(
@@ -198,8 +185,6 @@ class SecondRoute extends StatelessWidget {
     String? value = await storage.read(key: "token");
 
     var header = {"Content-Type": "Application/JSON"};
-    print("food");
-    print(food);
 
     var body = {
       'food': food,
@@ -207,19 +192,12 @@ class SecondRoute extends StatelessWidget {
       'meal': meal,
     };
 
-    print("I love tokens");
-    print(value);
-    print("USER DATA: ${body}");
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8000/api/addfood?value=$value'),
         headers: header,
         body: jsonEncode(body));
 
     var data = jsonDecode(response.body);
-
-    print("Data");
-    print(data);
-
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -404,10 +382,6 @@ class SecondRoute extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        print("Form Data");
-                        print(body1);
-                        print(myController.text);
-                        print(dropdownValue);
                         Navigator.pop(context);
                         RegisterUser(body1,myController.text,dropdownValue);
                         setState(() {});
@@ -418,45 +392,6 @@ class SecondRoute extends StatelessWidget {
                 ]),
           )));
       },
-    );
-  }
-}
-
-class DropdownButtonExample extends StatefulWidget {
-  const DropdownButtonExample({super.key});
-
-  @override
-  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
-}
-
-const List<String> list = <String>['Breakfast', 'Lunch', 'Dinner', 'Snack'];
-
-class _DropdownButtonExampleState extends State<DropdownButtonExample> {
-  String dropdownValue = list.first;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.green),
-      underline: Container(
-        height: 3,
-        color: Colors.green,
-      ),
-      onChanged: (String? value) {
-        // This is called when the user selects an item.
-        setState(() {
-          dropdownValue = value!;
-        });
-      },
-      items: list.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
     );
   }
 }
