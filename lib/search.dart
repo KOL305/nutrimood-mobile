@@ -23,6 +23,7 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+  int currentIndex = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +37,44 @@ class _SearchState extends State<Search> {
                 );
               },
               icon: const Icon(Icons.search))
-        ]));
+        ],),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.indigo[400],
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white70,
+          iconSize: 36,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentIndex,
+          onTap: (index)=> setState(() {
+            if (index == 0){
+              Navigator.pushNamed(context, "/dashboard");
+            }
+            else if (index == 1){
+              Navigator.pushNamed(context, '/journal');
+            }
+
+          }),
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Dashboard',
+              //backgroundColor: Colors.blue,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.receipt),
+              label: 'Journal',
+              //backgroundColor: Colors.blue,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Calorie Search',
+              //backgroundColor: Colors.blue,
+            ),
+
+        ],
+      ),);
   }
 }
 

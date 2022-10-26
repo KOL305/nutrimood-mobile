@@ -22,7 +22,7 @@ class _journalState extends State<journal> {
 
   var color = {'Breakfast':Colors.yellowAccent,'Water':Colors.lightBlue, 'Dinner':Colors.pink[100], 'Snack':Colors.green,'Lunch': Colors.orangeAccent};
 
-  int currentIndex =0;
+  int currentIndex = 1;
 
   getJournal (date) async{
     final storage = new FlutterSecureStorage();
@@ -41,6 +41,9 @@ class _journalState extends State<journal> {
     print(data);
     if (data["error"] == "0"){
         entries = data["journal"];
+    }
+    else if (data["error"] == "-1"){
+        entries = [];
     }
     else{
       showDialog<String>(
@@ -86,15 +89,20 @@ class _journalState extends State<journal> {
             icon: Icon(journal.navigate_before),
             onPressed: () {
               today = today.subtract(const Duration(days: 1));
-              setState(() { entries.length; });
+              getJournal(today);
+              setState(() {});
+              Timer(const Duration(milliseconds: 1000), (){setState(() {entries.length;});});
+              
             },
           ),
           actions: [
             IconButton(
                 icon: Icon(journal.navigate_next),
-              onPressed: ()=>{
-              today = today.add(const Duration(days: 1)),
-              setState(() { entries.length; })
+              onPressed: (){
+              today = today.add(const Duration(days: 1));
+              getJournal(today);
+              setState(() {});
+              Timer(const Duration(milliseconds: 1000), (){setState(() {entries.length;});});
               },
             ),
           ],
@@ -134,7 +142,15 @@ class _journalState extends State<journal> {
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
           currentIndex: currentIndex,
-          onTap: (index)=> setState(() => currentIndex = index),
+          onTap: (index)=> setState(() {
+            if (index == 0){
+              Navigator.pushNamed(context, "/dashboard");
+            }
+            else if (index == 2){
+              Navigator.pushNamed(context, '/search');
+            }
+
+          }),
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

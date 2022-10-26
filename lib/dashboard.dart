@@ -259,7 +259,15 @@ class _dashboardState extends State<dashboard> {
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
           currentIndex: currentIndex,
-          onTap: (index)=> setState(() => currentIndex = index),
+          onTap: (index)=> setState(() {
+            if (index == 1){
+              Navigator.pushNamed(context, "/journal");
+            }
+            else if (index == 2){
+              Navigator.pushNamed(context, '/search');
+            }
+
+          }),
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
