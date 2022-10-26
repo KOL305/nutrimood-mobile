@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const Index(),
+      home: LoginPage(),
       routes: {
         "/journal": (context) => const journal(),
         "/dashboard": (context) => const dashboard(),
@@ -43,6 +43,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// All routes displayed for testing purposes
+/*
 class Index extends StatelessWidget {
   const Index({Key? key}) : super(key: key);
 
@@ -96,3 +98,4 @@ class Index extends StatelessWidget {
     ));
   }
 }
+*/
