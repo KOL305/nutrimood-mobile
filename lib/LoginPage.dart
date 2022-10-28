@@ -32,20 +32,16 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(top: 90.0),
                   child: Center(
                     child: Container(
-                        width: 200,
-                        height: 80,
-                        child: Text(
-                            'LOGO',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 60,
-                            )
-                        )
+                        width: 600,
+                        height: 240,
+                        child: Image.asset(
+                'assets/images/logo_square.png',
+              ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
+                  padding: const EdgeInsets.only(top: 1),
                   child: Center(
                     child: Container(
                       width: 200,
@@ -60,11 +56,11 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(bottom:15,left: 10,right: 10),
                   child: TextFormField(
                     controller: _name,
-                    decoration: buildInputDecoration(Icons.person,"User Name"),
+                    decoration: buildInputDecoration(Icons.person,"Username"),
                     validator: (value){
                       if(value!.isEmpty)
                       {
-                        return 'Please Enter User Name';
+                        return 'Please Enter Username';
                       }
                       return null;
                     },

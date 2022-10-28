@@ -27,8 +27,8 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[900],
-        appBar: AppBar(title: const Text('Search Page'), actions: [
+        backgroundColor: Colors.white,
+        appBar: AppBar(backgroundColor: Colors.green[300],title: const Text('Search Page'), actions: [
           IconButton(
               onPressed: () {
                 showSearch(
@@ -39,7 +39,7 @@ class _SearchState extends State<Search> {
               icon: const Icon(Icons.search))
         ],),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.indigo[400],
+          backgroundColor: Colors.green[300],
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white70,
           iconSize: 36,
@@ -84,7 +84,7 @@ class CustomSearchDelegate extends SearchDelegate {
   getFood(searchedFood) async {
     suggestions = [];
     var url1 = Uri.parse(
-        'https://api.nal.usda.gov/fdc/v1/foods/search?query=apple&api_key=4xuCPTczsw6SIyIYMbnwiXp5VLhOv3iYHqPt0Frv&query=$searchedFood&pageSize=100&dataType=Branded');
+        'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=4xuCPTczsw6SIyIYMbnwiXp5VLhOv3iYHqPt0Frv&query=$searchedFood&pageSize=50&dataType=Branded');
     var response = await http.get(url1);
 
     body = jsonDecode(response.body);
@@ -184,7 +184,7 @@ class SecondRoute extends StatelessWidget {
     final storage = new FlutterSecureStorage();
     String? value = await storage.read(key: "token");
 
-    var header = {"Content-Type": "Application/JSON"};
+    var header = {"Content-Type": "Application/JSON", "authorization": value!};
 
     var body = {
       'food': food,
@@ -208,6 +208,7 @@ class SecondRoute extends StatelessWidget {
       builder: (BuildContext context, void Function(void Function()) setState) {
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.green[300],
             title: const Text('Adding to Journal'),
           ),
           body: SingleChildScrollView(
@@ -227,7 +228,7 @@ class SecondRoute extends StatelessWidget {
                   Text(
                     body1["lowercaseDescription"],
                     style: TextStyle(
-                      color: Colors.amberAccent[200],
+                      color: Colors.red[400],
                       fontWeight: FontWeight.bold,
                       fontSize: 28.0,
                       letterSpacing: 2.0,
@@ -245,7 +246,7 @@ class SecondRoute extends StatelessWidget {
                   Text(
                     body1["foodNutrients"][4]["value"].toString(),
                     style: TextStyle(
-                      color: Colors.amberAccent[200],
+                      color: Colors.red[400],
                       fontWeight: FontWeight.bold,
                       fontSize: 28.0,
                       letterSpacing: 2.0,
@@ -269,7 +270,7 @@ class SecondRoute extends StatelessWidget {
                             Text(
                               body1["foodNutrients"][3]["value"].toString(),
                               style: TextStyle(
-                                color: Colors.amberAccent[200],
+                                color: Colors.red[400],
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0,
                                 letterSpacing: 2.0,
@@ -292,7 +293,7 @@ class SecondRoute extends StatelessWidget {
                             Text(
                               body1["foodNutrients"][1]["value"].toString(),
                               style: TextStyle(
-                                color: Colors.amberAccent[200],
+                                color: Colors.red[400],
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0,
                                 letterSpacing: 2.0,
@@ -315,7 +316,7 @@ class SecondRoute extends StatelessWidget {
                             Text(
                               body1["foodNutrients"][2]["value"].toString(),
                               style: TextStyle(
-                                color: Colors.amberAccent[200],
+                                color: Colors.red[400],
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0,
                                 letterSpacing: 2.0,
@@ -388,6 +389,9 @@ class SecondRoute extends StatelessWidget {
                       }
                     },
                     child: Text("Submit"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[300], // set the back
+                    ),
                   ),
                 ]),
           )));

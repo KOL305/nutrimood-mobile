@@ -20,7 +20,7 @@ class _journalState extends State<journal> {
   List entries = [];
   var today;
 
-  var color = {'Breakfast':Colors.yellowAccent,'Water':Colors.lightBlue, 'Dinner':Colors.pink[100], 'Snack':Colors.green,'Lunch': Colors.orangeAccent};
+  var color = {'Water':Colors.blue[200],'Breakfast':Colors.yellow[200], 'Lunch': Colors.amber[300], 'Dinner':Colors.orange[400], 'Snack':Colors.red[200],};
 
   int currentIndex = 1;
 
@@ -31,7 +31,7 @@ class _journalState extends State<journal> {
     var splitDate = journalDate.split("-");
     journalDate = "${splitDate[1]}-${splitDate[2]}-${splitDate[0]}";
 
-    final response = await http.get(Uri.parse('http://10.0.2.2:8000/api/getjournal?value=$value&date=$journalDate'));
+    final response = await http.get(Uri.parse('http://10.0.2.2:8000/api/getjournal?date=$journalDate'), headers: {"authorization": value!});
     var data = jsonDecode(response.body);
     if (data["error"] == "0"){
         entries = data["journal"];
@@ -74,7 +74,7 @@ class _journalState extends State<journal> {
             DateFormat('MM-dd-yyyy').format(today),
             //date,
           ),
-          backgroundColor: Colors.indigo[400],
+          backgroundColor: Colors.green[300],
           centerTitle: true,
           elevation: 0.0,
           leading: //Icon(App.navigate_before),
@@ -127,7 +127,7 @@ class _journalState extends State<journal> {
        : Center(child: Text('Go eat something!!!'),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.indigo[400],
+          backgroundColor: Colors.green[300],
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white70,
           iconSize: 36,

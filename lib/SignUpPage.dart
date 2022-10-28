@@ -39,39 +39,20 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
-                  child: Center(
+                  Center(
                     child: Container(
-                        width: 375,
-                        height: 40,
-                        child: Text(
-                            'LOGO',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 30,
-                            )
-                        )
+                      width: 600,
+                      height: 240,
+                      child: Image.asset(
+                        'assets/images/nutrimood_logo_bar.png',
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: Center(
-                    child: Container(
-                      width: 200,
-                      height: 5,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
                 Padding(
                   padding: const EdgeInsets.only(bottom:15,left: 10,right: 10),
                   child: TextFormField(
                     controller: _name,
-                    decoration: buildInputDecoration(Icons.person,"User Name"),
+                    decoration: buildInputDecoration(Icons.person,"Username"),
                     validator: (value){
                       if(value!.isEmpty)
                       {
@@ -147,7 +128,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.only(bottom: 15,left: 10,right: 10),
                   child: TextFormField(
                     controller: _height,
-                    decoration:buildInputDecoration(Icons.accessibility_new_rounded,"Height(cm)"),
+                    decoration:buildInputDecoration(Icons.accessibility_new_rounded,"Height (cm)"),
                     validator: (value){
                       if(value!.isEmpty)
                       {
@@ -169,7 +150,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.only(bottom: 15,left: 10,right: 10),
                   child: TextFormField(
                     controller: _weight,
-                    decoration:buildInputDecoration(Icons.monitor_weight_outlined,"Weight(kg)"),
+                    decoration:buildInputDecoration(Icons.monitor_weight_outlined,"Weight (kg)"),
                     validator: (value){
                       if(value!.isEmpty)
                       {
@@ -190,7 +171,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.only(bottom: 15,left: 10,right: 10),
                   child: TextFormField(
                     controller: _watergoal,
-                    decoration:buildInputDecoration(Icons.water_drop_outlined,"Water Goal(ml)"),
+                    decoration:buildInputDecoration(Icons.water_drop_outlined,"Water Goal (ml)"),
                     validator: (value){
                       if(value!.isEmpty)
                       {
@@ -208,7 +189,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.only(bottom: 15,left: 10,right: 10),
                   child: TextFormField(
                     controller: _gender,
-                    decoration:buildInputDecoration(Icons.transgender,"Gender(male/female)"),
+                    decoration:buildInputDecoration(Icons.transgender,"Sex (male/female)"),
                     validator: (value){
                       if(value!.isEmpty)
                       {

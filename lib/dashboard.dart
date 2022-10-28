@@ -7,6 +7,7 @@ import 'package:emojis/emojis.dart'; // to use Emoji collection
 import 'package:emojis/emoji.dart'; // to use Emoji utilities
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:uri_to_file/uri_to_file.dart';
 
 class dashboard extends StatefulWidget {
   const dashboard({super.key});
@@ -35,7 +36,7 @@ class _dashboardState extends State<dashboard> {
   getDashboard () async{
     final storage = new FlutterSecureStorage();
     String? value = await storage.read(key: "token");
-    final response = await http.get(Uri.parse('http://10.0.2.2:8000/api/getdashboard?value=$value'));
+    final response = await http.get(Uri.parse('http://10.0.2.2:8000/api/getdashboard'),headers: {"authorization": value!});
     var data = jsonDecode(response.body);
     if (data["error"] == "0"){
         entries = data["entries"];
@@ -75,28 +76,28 @@ class _dashboardState extends State<dashboard> {
     }else{
       emoji = '${Emojis.skull}';
     }
-    if(caloriesStat!>1){
-      color1 = Colors.black;
+    if(caloriesStat!>1.2){
+      color1 = Colors.red;
     }else{
       color1 = Color(0xff00ff00);
     }
-    if(proteinStat!>1){
-      color2 = Colors.black;
+    if(proteinStat!>1.2){
+      color2 = Colors.red;
     }else{
     color2 = Color(0xff00ff00);
     }
-    if(carbsStat!>1){
-      color3 = Colors.black;
+    if(carbsStat!>1.2){
+      color3 = Colors.red;
     }else{
       color3 = Color(0xff00ff00);
     }
-    if(fatStat!>1){
-      color4 = Colors.black;
+    if(fatStat!>1.2){
+      color4 = Colors.red;
     }else{
       color4 = Color(0xff00ff00);
     }
     if(waterStat!<0.5){
-      color5 = Colors.black;
+      color5 = Colors.red;
     }else{
       color5 = Color(0xff00ff00);
     }
@@ -121,7 +122,7 @@ class _dashboardState extends State<dashboard> {
       home: Scaffold(
         appBar: AppBar(
           title: Text("Day " + day, textAlign: TextAlign.left,),
-          backgroundColor: Colors.pink[100],
+          backgroundColor: Colors.green[300],
           centerTitle: false,
           elevation: 0.0,  
           actions: [
@@ -135,13 +136,16 @@ class _dashboardState extends State<dashboard> {
             Container(
               height: 287.4,
               width: 415,
-              child:FittedBox(
+              child: Image.asset(
+                'assets/images/red_slime_plain.gif',
+              ),
+              // child:FittedBox(
 
-              fit: BoxFit.fill,
-              child: Image(
-                image: NetworkImage('https://media.tenor.com/6Lw1YBeMrCMAAAAM/hanoopy-happy.gif'),
-              ),
-              ),
+              // fit: BoxFit.fill,
+              // child: Image(
+              //   image: NetworkImage('https://media.tenor.com/6Lw1YBeMrCMAAAAM/hanoopy-happy.gif'),
+              // ),
+              // ),
             ),
             Row(
               children: [
@@ -149,7 +153,7 @@ class _dashboardState extends State<dashboard> {
                   child: Container(
                     padding: EdgeInsets.all(10.0),
                     height: 250.0,
-                    color: Colors.pink[100],
+                    color: Colors.green[200],
                     child: Column(
                       children: [
                         Row(
@@ -251,7 +255,7 @@ class _dashboardState extends State<dashboard> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.indigo[400],
+          backgroundColor: Colors.green[300],
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white70,
           iconSize: 36,
