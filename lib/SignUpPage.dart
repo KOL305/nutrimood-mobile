@@ -366,7 +366,5 @@ class _SignUpPageState extends State<SignUpPage> {
       await storage.write(key: "token", value: data["token"]);
       Timer(const Duration(milliseconds: 1000), (){Navigator.pushReplacementNamed(context, '/dashboard');});
     }
-
-
   }
 }
