@@ -175,5 +175,6 @@ class _LoginPageState extends State<LoginPage> {
       await storage.write(key: "token", value: data["token"]);
       Timer(const Duration(milliseconds: 1000), (){Navigator.pushReplacementNamed(context, '/dashboard');});
     }
+    
   }
 }
