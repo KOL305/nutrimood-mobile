@@ -1,4 +1,4 @@
-# congressional_app_challenge_mobile
+# Nutrimood
 Server:
 - https://github.com/KOL305/congressional_app_challenge_server
 
