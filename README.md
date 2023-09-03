@@ -7,3 +7,5 @@ Contributors:
 - Login and Signup by Squidyyyyyyy
 - Dashboard and Journal by Snoopalyt
 - Search functionality by averagetoaster
+
+Mobile nutritional tracker app created for the 2022 Congressional App Challenge
